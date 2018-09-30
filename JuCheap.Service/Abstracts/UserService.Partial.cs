@@ -56,7 +56,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entity = Mapper.Map<UserDto, UserEntity>(dto);
+                var entity = dto.MapTo<UserEntity>();
+                //var entity = Mapper.Map<UserDto, UserEntity>(dto);
                 dbSet.Add(entity);
                 var count = db.SaveChanges();
                 return count > 0;
@@ -74,7 +75,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entities = Mapper.Map<List<UserDto>, List<UserEntity>>(dtos);
+				//var entities = Mapper.Map<List<UserDto>, List<UserEntity>>(dtos);
+                var entities = dtos.MapTo<UserDto, UserEntity>().AsEnumerable();
                 dbSet.AddRange(entities);
                 return db.SaveChanges() > 0;
             }
@@ -91,7 +93,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entity = Mapper.Map<UserDto, UserEntity>(dto);
+				//var entity = Mapper.Map<UserDto, UserEntity>(dto);
+                var entity = dto.MapTo<UserEntity>();
                 dbSet.AddOrUpdate(entity);
                 return db.SaveChanges() > 0;
             }
@@ -108,7 +111,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entities = Mapper.Map<IEnumerable<UserDto>, IEnumerable<UserEntity>>(dtos);
+				//var entities = Mapper.Map<IEnumerable<UserDto>, IEnumerable<UserEntity>>(dtos);
+                var entities = dtos.MapTo<UserDto, UserEntity>().AsEnumerable();
                 dbSet.AddOrUpdate(entities.ToArray());
                 return db.SaveChanges() > 0;
             }
@@ -165,7 +169,8 @@ namespace JuCheap.Service.Abstracts
 				var where = exp.Cast<UserDto, UserEntity, bool>();
                 var entity = dbSet.AsNoTracking().FirstOrDefault(where);
 
-				return Mapper.Map<UserEntity, UserDto>(entity);
+				//return Mapper.Map<UserEntity, UserDto>(entity);
+                return entity.MapTo<UserDto>();
             }
 		}
 
@@ -186,7 +191,8 @@ namespace JuCheap.Service.Abstracts
 				var order = orderExp.Cast<UserDto, UserEntity, OrderKeyType>();
 				var query = GetQuery(dbSet, where, order, isDesc);
 				var list = query.ToList();
-				return Mapper.Map<List<UserEntity>, List<UserDto>>(list);
+                //return Mapper.Map<List<UserEntity>, List<UserDto>>(list);
+                return list.MapTo<UserEntity, UserDto>().ToList();
             }
 		}
 
@@ -215,7 +221,8 @@ namespace JuCheap.Service.Abstracts
                 var dto = new ResultDto<UserDto>
 				{
 					recordsTotal = query_count.Value,
-					data = Mapper.Map<List<UserEntity>, List<UserDto>>(list)
+                    //data = Mapper.Map<List<UserEntity>, List<UserDto>>(list)
+                    data = list.MapTo<UserEntity, UserDto>().ToList()
                 };
 				return dto;
             }
@@ -246,7 +253,8 @@ namespace JuCheap.Service.Abstracts
                 var dto = new ResultDto<UserDto>
 				{
 					recordsTotal = query_count.Value,
-					data = Mapper.Map<List<UserEntity>, List<UserDto>>(list)
+					//data = Mapper.Map<List<UserEntity>, List<UserDto>>(list)
+                    data = list.MapTo<UserEntity, UserDto>().ToList()
                 };
 				return dto;
             }

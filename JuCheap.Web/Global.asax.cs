@@ -44,8 +44,8 @@ namespace JuCheap.Web
 
 
             //AutoMapper
-            AutoMapperConfiguration.Config();
-            AutoMapperConfiguration.ConfigExt();
+            //AutoMapperConfiguration.Config();
+            //AutoMapperConfiguration.ConfigExt();
         }
     }
 }

@@ -167,11 +167,10 @@ namespace JuCheap.Service.Abstracts
                     .OrderBy(item => item.CreateDateTime)
                     .Where(where);
                 var list = roleDbSet.Skip(query.Start).Take(query.Length).ToList();
-
                 var dto = new ResultDto<RoleDto>
                 {
                     recordsTotal = roleDbSet.Count(),
-                    data = Mapper.Map<List<RoleEntity>, List<RoleDto>>(list)
+                    data = list.MapTo<RoleEntity, RoleDto>().ToList()
                 };
                 return dto;
             }
@@ -205,7 +204,8 @@ namespace JuCheap.Service.Abstracts
                 var dto = new ResultDto<RoleDto>
                 {
                     recordsTotal = roleDbSet.Count(),
-                    data = Mapper.Map<List<RoleEntity>, List<RoleDto>>(list)
+                    //data = Mapper.Map<List<RoleEntity>, List<RoleDto>>(list)
+                    data = list.MapTo<RoleEntity, RoleDto>().ToList()
                 };
                 return dto;
             }

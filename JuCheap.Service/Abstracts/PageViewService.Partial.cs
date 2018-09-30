@@ -56,7 +56,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entity = Mapper.Map<PageViewDto, PageViewEntity>(dto);
+				//var entity = Mapper.Map<PageViewDto, PageViewEntity>(dto);
+                var entity = dto.MapTo<PageViewEntity>();
                 dbSet.Add(entity);
                 var count = db.SaveChanges();
                 return count > 0;
@@ -74,7 +75,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entities = Mapper.Map<List<PageViewDto>, List<PageViewEntity>>(dtos);
+				//var entities = Mapper.Map<List<PageViewDto>, List<PageViewEntity>>(dtos);
+                var entities = dtos.MapTo<PageViewDto, PageViewEntity>();
                 dbSet.AddRange(entities);
                 return db.SaveChanges() > 0;
             }
@@ -91,7 +93,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entity = Mapper.Map<PageViewDto, PageViewEntity>(dto);
+				//var entity = Mapper.Map<PageViewDto, PageViewEntity>(dto);
+                var entity = dto.MapTo<PageViewEntity>();
                 dbSet.AddOrUpdate(entity);
                 return db.SaveChanges() > 0;
             }
@@ -108,7 +111,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entities = Mapper.Map<IEnumerable<PageViewDto>, IEnumerable<PageViewEntity>>(dtos);
+				//var entities = Mapper.Map<IEnumerable<PageViewDto>, IEnumerable<PageViewEntity>>(dtos);
+                var entities = dtos.MapTo<PageViewDto, PageViewEntity>();
                 dbSet.AddOrUpdate(entities.ToArray());
                 return db.SaveChanges() > 0;
             }
@@ -164,8 +168,8 @@ namespace JuCheap.Service.Abstracts
                 var dbSet = GetDbSet(db);
 				var where = exp.Cast<PageViewDto, PageViewEntity, bool>();
                 var entity = dbSet.AsNoTracking().FirstOrDefault(where);
-
-				return Mapper.Map<PageViewEntity, PageViewDto>(entity);
+                return entity.MapTo<PageViewDto>();
+				//return Mapper.Map<PageViewEntity, PageViewDto>(entity);
             }
 		}
 
@@ -186,7 +190,8 @@ namespace JuCheap.Service.Abstracts
 				var order = orderExp.Cast<PageViewDto, PageViewEntity, OrderKeyType>();
 				var query = GetQuery(dbSet, where, order, isDesc);
 				var list = query.ToList();
-				return Mapper.Map<List<PageViewEntity>, List<PageViewDto>>(list);
+				//return Mapper.Map<List<PageViewEntity>, List<PageViewDto>>(list);
+                return list.MapTo<PageViewEntity, PageViewDto>().ToList();
             }
 		}
 
@@ -213,9 +218,10 @@ namespace JuCheap.Service.Abstracts
 				var list = query_list.ToList();
 
                 var dto = new ResultDto<PageViewDto>
-				{
-					recordsTotal = query_count.Value,
-					data = Mapper.Map<List<PageViewEntity>, List<PageViewDto>>(list)
+                {
+                    recordsTotal = query_count.Value,
+                    //data = Mapper.Map<List<PageViewEntity>, List<PageViewDto>>(list)
+                    data = list.MapTo<PageViewEntity, PageViewDto>().ToList()
                 };
 				return dto;
             }
@@ -246,7 +252,8 @@ namespace JuCheap.Service.Abstracts
                 var dto = new ResultDto<PageViewDto>
 				{
 					recordsTotal = query_count.Value,
-					data = Mapper.Map<List<PageViewEntity>, List<PageViewDto>>(list)
+					//data = Mapper.Map<List<PageViewEntity>, List<PageViewDto>>(list)
+                    data = list.MapTo<PageViewEntity, PageViewDto>().ToList()
                 };
 				return dto;
             }

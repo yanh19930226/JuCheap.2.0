@@ -53,5 +53,28 @@ namespace JuCheap.Service
             Mapper.CreateMap<EmailReceiverEntity, EmailReceiverDto>()
                 .ForMember(u => u.Type, e => e.MapFrom(s => (EmailReceiverType)s.Type));
         }
+
+
+        public static void Config()
+        {
+            Mapper.CreateMap<EmailPoolEntity, EmailPoolDto>();
+            Mapper.CreateMap<EmailPoolDto, EmailPoolEntity>();
+            Mapper.CreateMap<EmailReceiverEntity, EmailReceiverDto>();
+            Mapper.CreateMap<EmailReceiverDto, EmailReceiverEntity>();
+            Mapper.CreateMap<LoginLogEntity, LoginLogDto>();
+            Mapper.CreateMap<LoginLogDto, LoginLogEntity>();
+            Mapper.CreateMap<MenuEntity, MenuDto>();
+            Mapper.CreateMap<MenuDto, MenuEntity>();
+            Mapper.CreateMap<PageViewEntity, PageViewDto>();
+            Mapper.CreateMap<PageViewDto, PageViewEntity>();
+            Mapper.CreateMap<RoleEntity, RoleDto>();
+            Mapper.CreateMap<RoleDto, RoleEntity>();
+            Mapper.CreateMap<RoleMenuEntity, RoleMenuDto>();
+            Mapper.CreateMap<RoleMenuDto, RoleMenuEntity>();
+            Mapper.CreateMap<UserEntity, UserDto>();
+            Mapper.CreateMap<UserDto, UserEntity>();
+            Mapper.CreateMap<UserRoleEntity, UserRoleDto>();
+            Mapper.CreateMap<UserRoleDto, UserRoleEntity>();
+        }
     }
 }

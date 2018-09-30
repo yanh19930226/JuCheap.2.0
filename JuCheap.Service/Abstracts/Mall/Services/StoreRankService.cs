@@ -11,5 +11,6 @@ namespace JuCheap.Service.Abstracts.Mall.Services
 {
     public class StoreRankService : ServiceBase<StoreRankEntity>, IDependency, IStoreRankService
     {
+
     }
 }

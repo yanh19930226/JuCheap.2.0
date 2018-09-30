@@ -56,7 +56,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entity = Mapper.Map<UserRoleDto, UserRoleEntity>(dto);
+				//var entity = Mapper.Map<UserRoleDto, UserRoleEntity>(dto);
+                var entity = dto.MapTo<UserRoleEntity>();
                 dbSet.Add(entity);
                 var count = db.SaveChanges();
                 return count > 0;
@@ -74,7 +75,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entities = Mapper.Map<List<UserRoleDto>, List<UserRoleEntity>>(dtos);
+                //var entities = Mapper.Map<List<UserRoleDto>, List<UserRoleEntity>>(dtos);
+                var entities = dtos.MapTo<UserRoleDto, UserRoleEntity>();
                 dbSet.AddRange(entities);
                 return db.SaveChanges() > 0;
             }
@@ -91,7 +93,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entity = Mapper.Map<UserRoleDto, UserRoleEntity>(dto);
+                var entity = dto.MapTo<UserRoleEntity>();
+                //var entity = Mapper.Map<UserRoleDto, UserRoleEntity>(dto);
                 dbSet.AddOrUpdate(entity);
                 return db.SaveChanges() > 0;
             }
@@ -108,7 +111,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entities = Mapper.Map<IEnumerable<UserRoleDto>, IEnumerable<UserRoleEntity>>(dtos);
+				//var entities = Mapper.Map<IEnumerable<UserRoleDto>, IEnumerable<UserRoleEntity>>(dtos);
+                var entities = dtos.MapTo<UserRoleDto,UserRoleEntity>();
                 dbSet.AddOrUpdate(entities.ToArray());
                 return db.SaveChanges() > 0;
             }
@@ -165,7 +169,8 @@ namespace JuCheap.Service.Abstracts
 				var where = exp.Cast<UserRoleDto, UserRoleEntity, bool>();
                 var entity = dbSet.AsNoTracking().FirstOrDefault(where);
 
-				return Mapper.Map<UserRoleEntity, UserRoleDto>(entity);
+				//return Mapper.Map<UserRoleEntity, UserRoleDto>(entity);
+                return entity.MapTo<UserRoleDto>();
             }
 		}
 
@@ -186,7 +191,8 @@ namespace JuCheap.Service.Abstracts
 				var order = orderExp.Cast<UserRoleDto, UserRoleEntity, OrderKeyType>();
 				var query = GetQuery(dbSet, where, order, isDesc);
 				var list = query.ToList();
-				return Mapper.Map<List<UserRoleEntity>, List<UserRoleDto>>(list);
+                //return Mapper.Map<List<UserRoleEntity>, List<UserRoleDto>>(list);
+                return list.MapTo<UserRoleEntity, UserRoleDto>().ToList();
             }
 		}
 
@@ -213,9 +219,10 @@ namespace JuCheap.Service.Abstracts
 				var list = query_list.ToList();
 
                 var dto = new ResultDto<UserRoleDto>
-				{
-					recordsTotal = query_count.Value,
-					data = Mapper.Map<List<UserRoleEntity>, List<UserRoleDto>>(list)
+                {
+                    recordsTotal = query_count.Value,
+                    //data = Mapper.Map<List<UserRoleEntity>, List<UserRoleDto>>(list)
+                    data = list.MapTo<UserRoleEntity, UserRoleDto>().ToList()
                 };
 				return dto;
             }
@@ -246,7 +253,8 @@ namespace JuCheap.Service.Abstracts
                 var dto = new ResultDto<UserRoleDto>
 				{
 					recordsTotal = query_count.Value,
-					data = Mapper.Map<List<UserRoleEntity>, List<UserRoleDto>>(list)
+					//data = Mapper.Map<List<UserRoleEntity>, List<UserRoleDto>>(list)
+                    data = list.MapTo<UserRoleEntity, UserRoleDto>().ToList()
                 };
 				return dto;
             }

@@ -24,7 +24,8 @@ namespace JuCheap.Service.Abstracts
                 var query = GetQuery(dbSet, item => item.Receivers,
                     item => !item.IsDeleted && item.Status == (byte)EmailStatus.等待发送 && item.FailTimes < 3, item => item.Id, false);
                 var list = query.Skip(0).Take(top).ToList();
-                var res = Mapper.Map<List<EmailPoolEntity>, List<EmailPoolDto>>(list);
+                //var res = Mapper.Map<List<EmailPoolEntity>, List<EmailPoolDto>>(list);
+                var res = list.MapTo<EmailPoolEntity, EmailPoolDto>().ToList();
                 return res;
             }
         }

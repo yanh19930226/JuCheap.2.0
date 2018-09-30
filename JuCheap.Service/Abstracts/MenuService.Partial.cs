@@ -56,7 +56,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entity = Mapper.Map<MenuDto, MenuEntity>(dto);
+				//var entity = Mapper.Map<MenuDto, MenuEntity>(dto);
+                var entity = dto.MapTo<MenuEntity>();
                 dbSet.Add(entity);
                 var count = db.SaveChanges();
                 return count > 0;
@@ -74,7 +75,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entities = Mapper.Map<List<MenuDto>, List<MenuEntity>>(dtos);
+				//var entities = Mapper.Map<List<MenuDto>, List<MenuEntity>>(dtos);
+                var entities = dtos.MapTo<MenuDto, MenuEntity>();
                 dbSet.AddRange(entities);
                 return db.SaveChanges() > 0;
             }
@@ -91,7 +93,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entity = Mapper.Map<MenuDto, MenuEntity>(dto);
+				//var entity = Mapper.Map<MenuDto, MenuEntity>(dto);
+                var entity = dto.MapTo<MenuEntity>();
                 dbSet.AddOrUpdate(entity);
                 return db.SaveChanges() > 0;
             }
@@ -108,7 +111,8 @@ namespace JuCheap.Service.Abstracts
             {
                 var db = GetDb(scope);
                 var dbSet = GetDbSet(db);
-				var entities = Mapper.Map<IEnumerable<MenuDto>, IEnumerable<MenuEntity>>(dtos);
+				//var entities = Mapper.Map<IEnumerable<MenuDto>, IEnumerable<MenuEntity>>(dtos);
+                var entities = dtos.MapTo<MenuDto, MenuEntity>();
                 dbSet.AddOrUpdate(entities.ToArray());
                 return db.SaveChanges() > 0;
             }
@@ -164,8 +168,8 @@ namespace JuCheap.Service.Abstracts
                 var dbSet = GetDbSet(db);
 				var where = exp.Cast<MenuDto, MenuEntity, bool>();
                 var entity = dbSet.AsNoTracking().FirstOrDefault(where);
-
-				return Mapper.Map<MenuEntity, MenuDto>(entity);
+                return entity.MapTo<MenuDto>();
+                //return Mapper.Map<MenuEntity, MenuDto>(entity);
             }
 		}
 
@@ -186,7 +190,8 @@ namespace JuCheap.Service.Abstracts
 				var order = orderExp.Cast<MenuDto, MenuEntity, OrderKeyType>();
 				var query = GetQuery(dbSet, where, order, isDesc);
 				var list = query.ToList();
-				return Mapper.Map<List<MenuEntity>, List<MenuDto>>(list);
+				//return Mapper.Map<List<MenuEntity>, List<MenuDto>>(list);
+                return list.MapTo<MenuEntity, MenuDto>().ToList();
             }
 		}
 
@@ -215,7 +220,8 @@ namespace JuCheap.Service.Abstracts
                 var dto = new ResultDto<MenuDto>
 				{
 					recordsTotal = query_count.Value,
-					data = Mapper.Map<List<MenuEntity>, List<MenuDto>>(list)
+                    data = list.MapTo<MenuEntity, MenuDto>().ToList()
+                    //data = Mapper.Map<List<MenuEntity>, List<MenuDto>>(list)
                 };
 				return dto;
             }
@@ -246,7 +252,8 @@ namespace JuCheap.Service.Abstracts
                 var dto = new ResultDto<MenuDto>
 				{
 					recordsTotal = query_count.Value,
-					data = Mapper.Map<List<MenuEntity>, List<MenuDto>>(list)
+                    data = list.MapTo<MenuEntity, MenuDto>().ToList()
+                    //data = Mapper.Map<List<MenuEntity>, List<MenuDto>>(list)
                 };
 				return dto;
             }
